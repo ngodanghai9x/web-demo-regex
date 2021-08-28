@@ -11,10 +11,16 @@ app.use(cookieParser('secret-key-for-signed-cookie')); // for read cookie
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-// app.use((req, res, next) => {
-//   console.log('my middleware - cookie: ', req && req.cookies);
-//   next();
-// })
+app.use((req, res, next) => {
+  console.log(`req path=${req?.url}`, {
+    // headers: req?.headers,
+    cookies: req?.cookies,
+    params: req?.params,
+    body: req?.body,
+  });
+  next();
+})
+
 app.set('view engine', 'pug');
 app.set('views', `${__dirname}/../pages`);
 
