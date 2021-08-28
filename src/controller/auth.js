@@ -1,4 +1,3 @@
-import { myPath } from "../config/path";
 
 const cookieOptions = {
   signed: true,
@@ -7,8 +6,6 @@ const cookieOptions = {
   domain: 'localhost',
 }
 export const renderLogin = (req, res, next) => {
-  console.log('renderLogin myPath: ', myPath())
-
   res.render('login.pug');
 }
 

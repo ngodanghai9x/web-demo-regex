@@ -1,6 +1,5 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { myPath } from './path';
 
 const app = express();
 const APP_HOST = 'http://localhost';
@@ -17,8 +16,7 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 //   next();
 // })
 app.set('view engine', 'pug');
-app.set('views', myPath('pages'));
-// app.set('views', './../pages');
+app.set('views', '/pages');
 
 app.listen(APP_PORT, () => {
   console.log(`Demo regex app listening at ${APP_HOST}:${APP_PORT}`)

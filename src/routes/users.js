@@ -1,8 +1,8 @@
 import express from 'express';
 import multer from 'multer';
 
-import { requireAuth } from '../middlewares/requireAuth.js';
-import { createUser, renderForm } from '../controller/users.js';
+import { requireAuth } from 'middlewares/requireAuth.js';
+import { createUser, renderForm } from 'controller/users.js';
 
 const upload = multer({ dest: './public/upload_files' }) // for parsing multipart/form-data
 
