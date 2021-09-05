@@ -6,4 +6,4 @@ export const TABLE = {
   ACCOUNT: 'account',
 }
 
-export const NEED_ESCAPE = false;
+export const NEED_ESCAPE = true;

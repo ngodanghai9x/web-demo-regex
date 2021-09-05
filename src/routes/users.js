@@ -2,7 +2,7 @@ import express from 'express';
 import multer from 'multer';
 
 import { requireAuth } from 'middlewares/requireAuth.js';
-import { createUser, renderForm } from 'controller/users.js';
+import { createUser, renderForm, renderUsers } from 'controller/users.js';
 
 const upload = multer({ dest: './public/upload_files' }) // for parsing multipart/form-data
 
@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.get('/', requireAuth, renderForm)
 router.get('/create', requireAuth, renderForm)
+router.get('/list', renderUsers)
 
 router.post('/create', upload.array('photos', 5), createUser)
 // router.post('/create', upload.single('photos'), createUser)

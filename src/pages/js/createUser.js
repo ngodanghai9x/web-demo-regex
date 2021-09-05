@@ -1,34 +1,33 @@
-extends ./layout
-
-block content
-  h2 Register
-  form(action="/auth/login" method="POST") 
-    .mb-3
-      label.form-label(for='Username') Username
-      input#Username.form-control(type='text'  name="username")
-    .mb-3
-      label.form-label(for='Password') Password
-      input#Password.form-control(type='password' name="password")
-    .mb-3
-      label.form-label(for='Password2') Re-Password
-      input#Password2.form-control(type='password' name="password2")
-    button.btn.btn-primary(type='submit') Create
-
-  script.
-    var errorMap = {};
+var errorMap = {};
     var fieldMap = {
-      username: {
-        regex: /[\w\d]{1,255}/i,
-        error: 'Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _',
+      name: {
+        regex: /[\w\s-]{1,255}/i,
+        error: 'Tên chỉ gồm chữ cái, khoảng trắng, và kí tự _- và có độ dài tối đa là 255',
       },
-      password: {
-        regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
-        error: 'Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số',
+      phone: {
+        regex: /^((09|03|07|08|05)+([0-9]{8})\b)$/,
+        error: 'Số điện thoại chỉ gồm 10 chữ số và bắt đầu bằng các đầu số 09|03|07|08|05',
       },
-      password2: {
+      sex: {
         regex: /^[0-3]$/,
         error: 'Giới tính không đúng định dạng',
-      }
+      },
+      birthday: {
+        regex: /^[1-9]\d{3}-[01]\d-[0-3]\d$/,
+        error: 'Ngày sinh không đúng định dạng yyyy-mm-dd',
+      },
+      email: {
+        regex: /.+/i,
+        error: 'Email không đúng định dạng',
+      },
+      website: {
+        regex: /^((http:|https:|http:|https:)\/\/(www\.)?)?[a-z0-9]+([-.]{1}[a-z0-9]+)+\.[a-z]{2,255}(:[0-9]{1,5})?$/i,
+        error: 'Website không đúng định dạng',
+      },
+      description: {
+        regex: /^.{0,2000}$/i,
+        error: 'Chú thích có độ dài tối đa là 2000 kí tự',
+      },
     }
     function onBlur(id) {
       var input = document.getElementById(id);
@@ -59,8 +58,8 @@ block content
     }
 
     function onSubmit() {
-      if (Object.keys(fieldMap).some(id => !document.getElementById(id).value)) {
-        return alert('Bạn chưa nhập đủ thông tin')
+      if (!document.getElementById('name').value) {
+        return alert('Trường tên không được để trống')
       }
       var errors = Object.values(errorMap)
       console.log("🚀 ~ file: createUser.pug ~ line 120 ~ onSubmit ~ errorMap", errorMap)

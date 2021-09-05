@@ -16,6 +16,10 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/error', (req, res) => {
+  res.render('error.pug');
+})
+
 
 
 

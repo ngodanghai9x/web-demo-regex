@@ -1,5 +1,29 @@
 * {
   margin: 0;
   padding: 0;
-  color: coral ;
+  /* color: coral ; */
+}
+
+label {
+  text-transform: capitalize;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.form-list {
+  padding-left: 2rem;
+  padding-left: 2rem;
+  border-left: 1px solid #e4e4e4;
+}
+
+.d-flex {
+  width: 100%;
+  gap: 20px;
+}
+.d-flex .flex-item {
+  width: 50%;
+}
+
+.error {
+  border-color: red;
 }

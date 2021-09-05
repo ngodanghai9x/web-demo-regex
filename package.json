@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/index.js",
   "scripts": {
-    "dev": "nodemon --exec ./node_modules/.bin/babel-node ./src/index.js",
+    "dev": "nodemon --exec ./node_modules/.bin/babel-node --inspect ./src/index.js",
     "production": "npm run build && node ./build/src/index.js",
     "build": "npm run clean && npm run build-babel",
     "build-babel": "babel ./src -d ./build/src",
@@ -17,6 +17,7 @@
     "@babel/runtime": "^7.15.3",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "moment": "^2.29.1",
     "multer": "^1.4.3",
     "mysql": "^2.18.1",
     "pug": "^3.0.2"
