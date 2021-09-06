@@ -18,7 +18,15 @@ const config = {
 
 
 // const conn = connect();
-const pool = mysql.createPool(config);
+let pool = {};
+try {
+	pool = mysql.createPool(config);
+} catch (error) {
+	console.log("🚀 ~ file: mysql.js error", error)
+	pool = {
+		getConnection: () => { },
+	};
+}
 const query = (sql, res, cb) => {
 	const handleError = error => {
 		console.log("🚀MYSQL ERROR", error)
@@ -26,9 +34,10 @@ const query = (sql, res, cb) => {
 	}
 
 	pool.getConnection(function (err, connection) {
-		if (err) handleError(error); // not connected!
+		if (err) handleError(err); // not connected!
 
 		// Use the connection
+		if (!connection) return;
 		connection.query(sql, function (error, results, fields) {
 			cb && cb(results, fields);
 			connection.release();
@@ -51,7 +60,7 @@ create table user (
 	website varchar(255),
 	email varchar(255),
 	birthday date,
-		decription varchar(2048)
+	description varchar(2048)
 );
 create table account (
 	id int not null primary key auto_increment,
