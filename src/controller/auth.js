@@ -1,4 +1,5 @@
 import mysql from 'mysql';
+import swal from 'sweetalert';
 import query from '../config/mysql';
 import { NEED_ESCAPE, TABLE } from "../ultis/constants";
 
@@ -15,10 +16,11 @@ export const renderLogin = (req, res, next) => {
 export const postLogin = async (req, res, next) => {
   try {
     let { username, password } = req.body;
+    // var sqlInjectString = `' or 1=1 --  `;
     debugger
     if (!NEED_ESCAPE) {
-      username = NEED_ESCAPE ? mysql.escape(username) : `"${username}"`;
-      password = NEED_ESCAPE ? mysql.escape(password) : `"${password}"`;
+      username = NEED_ESCAPE ? mysql.escape(username) : `'${username}'`;
+      password = NEED_ESCAPE ? mysql.escape(password) : `'${password}'`;
     }
     const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password};`
     console.log("🚀 ~ file: auth.js ~ line 24 ~ postLogin ~ sql", {
@@ -29,9 +31,13 @@ export const postLogin = async (req, res, next) => {
       console.log("🚀 ~ file: auth.js ~ line 25 ~ query ~ results", results)
       if (results?.[0]) {
         res.cookie('userId', 1506, cookieOptions);
-        return res.redirect('/users');
+        return res.redirect('/users?login=true');
       } else {
-        return res.redirect('/auth/login');
+        res.render('login.pug', {
+          message: 'Tài khoản hoặc mật khẩu không chính xác'
+        });
+
+        // return res.redirect('/auth/login');
       }
     });
   } catch (error) {

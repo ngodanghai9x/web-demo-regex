@@ -1,6 +1,9 @@
 create database demo_regex;
 use demo_regex;
 
+-- ALTER DATABASE demo_regex CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER SCHEMA `demo_regex`  DEFAULT COLLATE utf8mb4_vietnamese_ci ;
+
 create table user (
 	id int not null primary key auto_increment,
 	-- account_id int not null,
@@ -20,8 +23,6 @@ create table account (
     modified_at timestamp default current_timestamp
 );
 
--- ALTER DATABASE demo_regex CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER SCHEMA `demo_regex`  DEFAULT COLLATE utf8mb4_vietnamese_ci ;
 -- alter table user add constraint fk_acc_id foreign key (account_id) references account(id);
 -- alter table user add column phone varchar(25) after name;
 alter table user add column created_at timestamp default current_timestamp;
@@ -33,10 +34,15 @@ CHANGE COLUMN `name` `name` VARCHAR(255) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb
 insert into account (username, password) values ('haind3','123456');
 insert into account (username, password) values ('admin','123456');
 INSERT INTO user (name,phone,website,email,description,sex) VALUES ('ngô đăng hải','0975336798','','dmtuan1@yopmail.com','','0');
-
+INSERT INTO user (name,phone,website,email,description,birthday)
+	VALUES ('ngô đăng hải','0975336798','','dmtuan1@yopmail.com','','2021-09-22 00:00:00');
+    
+INSERT INTO user (name,phone,website,email,description) VALUES ("<img src='ab' onerror='alert(12)' />",'123','','','');
+INSERT INTO user (name,phone,website,email,description) VALUES ("' or 1=1 --  ",'123','','','');
 describe user;
 describe account;
--- ' or 1=1 -- -
+
+
 select * from account where username = 'admin' or 1=1;
 SELECT * FROM account WHERE username='admin or 1=1' AND password='1234';
 SELECT * FROM account WHERE username='admin' AND password=123456;

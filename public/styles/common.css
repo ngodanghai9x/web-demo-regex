@@ -27,3 +27,6 @@ label {
 .error {
   border-color: red;
 }
+.text-error {
+  color: red;
+}

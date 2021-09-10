@@ -49,7 +49,12 @@ block content
         else 
           li Array userList is empty
   //- script(src='pages/js/createUser.js')
+  script(src='https://unpkg.com/sweetalert/dist/sweetalert.min.js')
+    console.log("🚀 ~ file: createUser.pug ~ line 120 ~ onSubmit ~ errorMap", login)
+    //-   swal("Hello world");
+
   script.
+    JSON.parse(new URL(window.location.href).searchParams.get('login')) && swal("Đăng nhập thành công !", "", "success")
     var errorMap = {};
     var fieldMap = {
       name: {

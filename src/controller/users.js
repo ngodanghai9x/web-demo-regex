@@ -6,18 +6,20 @@ import { NEED_ESCAPE, TABLE } from '../ultis/constants';
 // const CURRENT_TIMESTAMP = mysql.raw('CURRENT_TIMESTAMP()');
 // var sql = mysql.format('UPDATE posts SET modified = ? WHERE id = ?', [CURRENT_TIMESTAMP, 42]);
 export const renderForm = async (req, res) => {
+  // console.log("🚀 ~ file: users.js ~ line 9 ~ renderForm ~ req", req.query)
   var sqlInjectString = `' or 1=1 --  `;
   try {
     const sql = `SELECT * FROM ${TABLE.USER} WHERE description='${sqlInjectString}';`
     // const sql = `SELECT * FROM ${TABLE.USER} WHERE description=${mysql.escape(temp)};`
     query(sql, res, (results) => {
-      console.log("🚀 ~ file: users.js ~ line 13 ~ query ~ results", {
-        results,
-        sql
-      })
+      // console.log("🚀 ~ file: users.js ~ line 13 ~ query ~ results", {
+      //   results,
+      //   sql
+      // })
       res.render('createUser.pug', {
         script: `<script>alert('hello')</script>`,
         userList: results || [],
+        login: !!req.query?.login
       });
     })
   } catch (error) {
@@ -29,7 +31,7 @@ export const renderForm = async (req, res) => {
 }
 
 const needEscapeValue = (value = '') => {
-  return NEED_ESCAPE ? mysql.escape(value) : value;
+  return NEED_ESCAPE ? mysql.escape(value) : `"${value}"`;
 }
 
 export const createUser = async (req, res) => {

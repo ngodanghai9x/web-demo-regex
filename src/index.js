@@ -11,9 +11,10 @@ app.use('/users', requireAuth, userRoute);
 app.use('/auth', authRoute);
 
 app.get('/', (req, res) => {
-  res.render('home.pug', {
-    name: 'Hải',
-  });
+  res.redirect('/auth/login')
+  // res.render('home.pug', {
+  //   name: 'Hải',
+  // });
 });
 
 app.get('/error', (req, res) => {
