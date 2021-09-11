@@ -81,9 +81,7 @@
           <input class="form-control" type="text" id="input" style="width: 50%;" />
           <button id="btnTest" type="button" class="btn btn-primary mx-3" onclick="onClick1()">Add to list</button>
         </div>
-        <!-- <div id="demo">
-          <script>alert('hello')</script>
-        </div> -->
+        <!-- <img src="ab" onerror="alert(12)" /> -->
       </div>
     </div>
     
@@ -99,15 +97,13 @@
     // js.innerHTML = new URL(window.location.href).searchParams.get('a');
     function onClick1() {
       // <img src="ab" onerror="alert(12)" />
-      // js.innerHTML = `<scri${""}pt>alert('hello')</scri${""}pt>`;
       var node = document.createElement("LI");                
-      node.innerHTML = input.value;        
-      // var textnode = document.createTextNode(input.value);        
-      // node.appendChild(textnode);                              
+      // node.innerHTML = input.value;
+      node.textContent = input.value;      
+      // var textnode = document.createTextNode(input.value);                                    
       js.appendChild(node); 
       // js.innerHTML = input.value;
       console.log("🚀 ~ file: users.html ~ line 87 ~ innerHTML");
-      // btnTest.innerHTML = `alert('hello')scri${""}pt>`;
     }
   </script>
 </html>

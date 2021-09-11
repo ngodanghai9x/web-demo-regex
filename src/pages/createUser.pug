@@ -78,7 +78,7 @@ block content
         error: 'Email không đúng định dạng',
       },
       website: {
-        regex: /^((http:|https:|http:|https:)\/\/(www\.)?)?[a-z0-9]+([-.]{1}[a-z0-9]+)+\.[a-z]{2,255}(:[0-9]{1,5})?$/i,
+        regex: /^((http:|https:|http:|https:)\/\/(www\.)?)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,255}(:[0-9]{1,5})?(\/.*)?$/i,
         error: 'Website không đúng định dạng',
       },
       description: {
@@ -92,7 +92,7 @@ block content
 
       console.log({ id, value: input.value })
 
-      if (fieldMap[id].regex.test(input.value)) {
+      if (fieldMap[id].regex.test(input.value) || (!input.value && input.id !== 'name')) {
         input.classList.remove('error');
         errorMap[id] = null;
         input.title = '';

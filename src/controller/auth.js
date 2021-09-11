@@ -1,7 +1,6 @@
 import mysql from 'mysql';
-import swal from 'sweetalert';
 import query from '../config/mysql';
-import { NEED_ESCAPE, TABLE } from "../ultis/constants";
+import { NEED_ESCAPE, SQLI_REGEX, TABLE } from "../ultis/constants";
 
 const cookieOptions = {
   signed: true,
@@ -17,18 +16,23 @@ export const postLogin = async (req, res, next) => {
   try {
     let { username, password } = req.body;
     // var sqlInjectString = `' or 1=1 --  `;
+    // if (SQLI_REGEX.test(username) || SQLI_REGEX.test(password)) {
+    //   console.log("postLogin ~ SQLI_REGEX", req.body)
+    //   res.render('login.pug', {
+    //     message: 'Tài khoản hoặc mật khẩu không chính xác'
+    //   });
+    // }
     debugger
-    if (!NEED_ESCAPE) {
-      username = NEED_ESCAPE ? mysql.escape(username) : `'${username}'`;
-      password = NEED_ESCAPE ? mysql.escape(password) : `'${password}'`;
-    }
-    const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password};`
+    username = NEED_ESCAPE ? mysql.escape(username) : `'${username}'`;
+    password = NEED_ESCAPE ? mysql.escape(password) : `'${password}'`;
+    const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password}`
+    // const sql1 = [`SELECT * FROM ${TABLE.ACCOUNT} WHERE username=? AND password=?`, [username, password]]
     console.log("🚀 ~ file: auth.js ~ line 24 ~ postLogin ~ sql", {
       sql,
       body: req.body
     })
     query(sql, res, (results) => {
-      console.log("🚀 ~ file: auth.js ~ line 25 ~ query ~ results", results)
+      console.log("🚀 ~ file: auth.js ~ line 25 ~ query ~ results", results?.length)
       if (results?.[0]) {
         res.cookie('userId', 1506, cookieOptions);
         return res.redirect('/users?login=true');
