@@ -8,7 +8,7 @@ import { NEED_ESCAPE, TABLE } from '../ultis/constants';
 export const renderForm = async (req, res) => {
   var sqlInjectString = `' or 1=1 --  `;
   try {
-    const sql = `SELECT * FROM ${TABLE.USER} LIMIT 100 OFFSET 10;`
+    const sql = `SELECT * FROM ${TABLE.USER};`
     // const sql = `SELECT * FROM ${TABLE.USER} WHERE description='${sqlInjectString}';`
     // const sql = `SELECT * FROM ${TABLE.USER} WHERE description=${mysql.escape(temp)};`
     query(sql, res, (results) => {

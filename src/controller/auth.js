@@ -15,11 +15,11 @@ export const renderLogin = (req, res, next) => {
 export const postLogin = async (req, res, next) => {
   try {
     let { username, password } = req.body;
-    // var sqlInjectString = `' or 1=1 --  `;
+    var sqlInjectString = `' or 1=1 --  `;
     // if (SQLI_REGEX.test(username) || SQLI_REGEX.test(password)) {
     //   console.log("postLogin ~ SQLI_REGEX", req.body)
     //   res.render('login.pug', {
-    //     message: 'Tài khoản hoặc mật khẩu không chính xác'
+    //     message: 'Tài khoản hoặc mật khẩu có chứa kí tự lạ'
     //   });
     // }
     debugger
