@@ -62,7 +62,7 @@ var errorMap = {};
         return alert('Trường tên không được để trống')
       }
       var errors = Object.values(errorMap)
-      console.log("🚀 ~ file: createUser.pug ~ line 120 ~ onSubmit ~ errorMap", errorMap)
+      console.log("🚀createUser errorMap", errorMap)
       if (errors && errors.filter(e => !!e).length) {
         return alert(errors.join('; '))
       }

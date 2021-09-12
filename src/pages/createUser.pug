@@ -50,7 +50,6 @@ block content
           li Array userList is empty
   //- script(src='pages/js/createUser.js')
   script(src='https://unpkg.com/sweetalert/dist/sweetalert.min.js')
-    console.log("🚀 ~ file: createUser.pug ~ line 120 ~ onSubmit ~ errorMap", login)
     //-   swal("Hello world");
 
   script.
@@ -107,8 +106,6 @@ block content
 
     function onClear() {
       document.getElementById('js').innerHTML= "<script>alert('hello')</sc"+"ript>";
-      console.log("🚀 ~ file: createUser.pug ~ line 54 ~ js", script)
-      errorMap = {};
       Object.keys(fieldMap).forEach(id => {
         document.getElementById(id).value = null;
         document.getElementById(id).title = '';
@@ -121,7 +118,7 @@ block content
         return alert('Trường tên không được để trống')
       }
       var errors = Object.values(errorMap)
-      console.log("🚀 ~ file: createUser.pug ~ line 120 ~ onSubmit ~ errorMap", errorMap)
+      console.log("🚀createUser errorMap", errorMap)
       if (errors && errors.filter(e => !!e).length) {
         return alert(errors.join('; '))
       }

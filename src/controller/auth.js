@@ -27,12 +27,12 @@ export const postLogin = async (req, res, next) => {
     password = NEED_ESCAPE ? mysql.escape(password) : `'${password}'`;
     const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password}`
     // const sql1 = [`SELECT * FROM ${TABLE.ACCOUNT} WHERE username=? AND password=?`, [username, password]]
-    console.log("🚀 ~ file: auth.js ~ line 24 ~ postLogin ~ sql", {
+    console.log("🚀 postLogin", {
       sql,
       body: req.body
     })
     query(sql, res, (results) => {
-      console.log("🚀 ~ file: auth.js ~ line 25 ~ query ~ results", results?.length)
+      console.log("🚀 postLogin results", results?.length)
       if (results?.[0]) {
         res.cookie('userId', 1506, cookieOptions);
         return res.redirect('/users?login=true');
@@ -63,10 +63,13 @@ export const postRegister = (req, res, next) => {
     }
     const keys = Object.keys(account).join(',');
     const values = Object.values(account).join(',');
-    const insertSql = `INSERT INTO ${TABLE.ACCOUNT} (${keys}) VALUES (${values});`
+    const insertSql = `INSERT INTO ${TABLE.ACCOUNT} (${keys}) VALUES (${values})`
     query(insertSql, res, (results) => {
-      console.log("🚀 ~ file: auth.js ~ line 25 ~ query ~ results", results)
-      if (results?.[0]) {
+      console.log("🚀 postRegister", {
+        insertSql,
+        results
+      })
+      if (results?.insertId) {
         return res.redirect('/auth/login');
       } else {
         return res.redirect('/auth/register');

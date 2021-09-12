@@ -2,33 +2,33 @@ extends ./layout
 
 block content
   h2 Register
-  form(action="/auth/login" method="POST") 
+  form#registerForm(action="/auth/register" method="POST") 
     .mb-3
       label.form-label(for='Username') Username
-      input#Username.form-control(type='text'  name="username")
+      input#username.form-control(type='text'  name="username" onblur='onBlur(this.id)')
     .mb-3
       label.form-label(for='Password') Password
-      input#Password.form-control(type='password' name="password")
-    .mb-3
-      label.form-label(for='Password2') Re-Password
-      input#Password2.form-control(type='password' name="password2")
-    button.btn.btn-primary(type='submit') Create
-
+      input#password.form-control(type='password' name="password" onblur='onBlur(this.id)')
+    //- .mb-3
+    //-   label.form-label(for='Password2') Re-Password
+    //-   input#Password2.form-control(type='password' name="password2")
+    //- button.btn.btn-primary(type='submit') Create
+    button#createBtn.btn.btn-primary(type='button' onclick='onSubmit()') Create
   script.
     var errorMap = {};
     var fieldMap = {
       username: {
-        regex: /[\w\d]{1,255}/i,
-        error: 'Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _',
+        regex: /^[\w\d]{6,255}$/i,
+        error: 'Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _, độ dài tối thiểu là 6 kí tự',
       },
       password: {
         regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
         error: 'Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số',
       },
-      password2: {
-        regex: /^[0-3]$/,
-        error: 'Giới tính không đúng định dạng',
-      }
+      //- password2: {
+      //-   regex: /^[0-3]$/,
+      //-   error: 'Giới tính không đúng định dạng',
+      //- }
     }
     function onBlur(id) {
       var input = document.getElementById(id);
@@ -63,9 +63,9 @@ block content
         return alert('Bạn chưa nhập đủ thông tin')
       }
       var errors = Object.values(errorMap)
-      console.log("🚀 ~ file: createUser.pug ~ line 120 ~ onSubmit ~ errorMap", errorMap)
+      console.log("🚀register errorMap", errorMap)
       if (errors && errors.filter(e => !!e).length) {
         return alert(errors.join('; '))
       }
-      document.getElementById('userForm').submit();
+      document.getElementById('registerForm').submit();
     }

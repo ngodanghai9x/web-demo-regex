@@ -38,7 +38,8 @@ INSERT INTO user (name,phone,website,email,description,birthday)
 	VALUES ('ngô đăng hải','0975336798','','dmtuan1@yopmail.com','','2021-09-22 00:00:00');
     
 INSERT INTO user (name,phone,website,email,description) VALUES ("<img src='ab' onerror='alert(12)' />",'123','','','');
-INSERT INTO user (name,phone,website,email,description) VALUES ("' or 1=1 --  ",'123','','','');
+INSERT	 INTO user (name,phone,website,email,description) VALUES ("' or 1=1 --  ",'123','','','');
+-- SELECT * FROM account WHERE username='' or 1=1 --  ' AND password='';
 describe user;
 describe account;
 
