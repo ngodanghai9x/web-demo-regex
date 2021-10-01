@@ -41,3 +41,12 @@ console.log({
 //   isoDate,
 //   isoMoment: moment(new Date(isoDate)),
 // }))
+
+// try {
+//   var newError = (code, message) => ({ code, message })
+//   console.log('start try catch');
+//   var a = 10;
+//   throw  newError(401, 'Lỗi');
+// } catch (error) {
+//   console.log("🚀 ~ file: test.js ~ line 49 ~ error", error)
+// }

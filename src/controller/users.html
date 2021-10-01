@@ -101,7 +101,7 @@
     function onClick1() {
       // <img src="ab" onerror="alert(12)" />
       var node = document.createElement("LI");                
-      // node.innerHTML = input.value.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      node.innerHTML = input.value.replace(/</g, '&lt;').replace(/>/g, '&gt;');
       // node.innerHTML = input.value;
       node.textContent = input.value;      
       var textnode = document.createTextNode(input.value);                                    

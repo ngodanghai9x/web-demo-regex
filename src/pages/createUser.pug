@@ -56,8 +56,8 @@ block content
     var errorMap = {};
     var fieldMap = {
       name: {
-        regex: /[\w\s-]{1,255}/i,
-        error: 'Tên chỉ gồm chữ cái, khoảng trắng, và kí tự _- và có độ dài tối đa là 255',
+        regex: /^[a-z_\s-\.]{1,255}$/i,
+        error: 'Tên chỉ gồm chữ cái, khoảng trắng, và kí tự _-. và có độ dài tối đa là 255',
       },
       phone: {
         regex: /^((09|03|07|08|05)+([0-9]{8})\b)$/,

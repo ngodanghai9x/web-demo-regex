@@ -48,7 +48,7 @@ export const createUser = async (req, res) => {
       // modified_at: null,
     }
     if (!!+sex) user.sex = needEscapeValue(sex);
-    if (birthday) user.birthday = moment(birthday).format('YYYY-MM-DD HH:mm:ss').toString();
+    if (birthday) user.birthday = `'${moment(birthday).format('YYYY-MM-DD HH:mm:ss').toString()}'`;
     
     console.log("🚀 ~ file: users.js ~ line 49 ~ createUser ~ user", user)
     const keys = Object.keys(user).join(',');

@@ -8,7 +8,7 @@ block content
       input#username.form-control(type='text'  name="username" onblur='onBlur(this.id)')
     .mb-3
       label.form-label(for='Password') Password
-      input#password.form-control(type='password' name="password" onblur='onBlur(this.id)')
+      input#password.form-control(type='text' name="password" onblur='onBlur(this.id)')
     //- .mb-3
     //-   label.form-label(for='Password2') Re-Password
     //-   input#Password2.form-control(type='password' name="password2")
@@ -18,7 +18,7 @@ block content
     var errorMap = {};
     var fieldMap = {
       username: {
-        regex: /^[\w\d]{6,255}$/i,
+        regex: /^[a-z_\d]{6,255}$/i,
         error: 'Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _, độ dài tối thiểu là 6 kí tự',
       },
       password: {

@@ -22,7 +22,7 @@ export const postLogin = async (req, res, next) => {
     //     message: 'Tài khoản hoặc mật khẩu có chứa kí tự lạ'
     //   });
     // }
-    debugger
+    // debugger
     username = NEED_ESCAPE ? mysql.escape(username) : `'${username}'`;
     password = NEED_ESCAPE ? mysql.escape(password) : `'${password}'`;
     const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password}`
@@ -33,7 +33,7 @@ export const postLogin = async (req, res, next) => {
     })
     query(sql, res, (results) => {
       console.log("🚀 postLogin results", results?.length)
-      if (results?.[0]) {
+      if (results?.length === 1) {
         res.cookie('userId', 1506, cookieOptions);
         return res.redirect('/users?login=true');
       } else {

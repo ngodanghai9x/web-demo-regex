@@ -43,7 +43,44 @@ INSERT	 INTO user (name,phone,website,email,description) VALUES ("' or 1=1 --  "
 describe user;
 describe account;
 
-
 select * from account where username = 'admin' or 1=1;
 SELECT * FROM account WHERE username='admin or 1=1' AND password='1234';
 SELECT * FROM account WHERE username='admin' AND password=123456;
+
+-- update many
+INSERT INTO account (id, username, password) 
+VALUES (3, 'user1', '123'), 
+	(4, 'user2', '123'),
+	(5, 'user3', '123'),
+	(6, 'user4', '123')
+ON DUPLICATE KEY UPDATE
+	username = VALUES(username),
+    password = VALUES(password);
+    
+INSERT INTO students 
+    (id, score1, score2)
+    VALUES 
+        (1, 5, 8),
+        (2, 10, 8),
+        (3, 8, 3),
+        (4, 10, 7)
+    ON DUPLICATE KEY UPDATE 
+        score1 = VALUES(score1),
+    score2 = VALUES(score2);
+-- --------
+UPDATE students s
+JOIN (
+    SELECT 1 as id, 5 as new_score1, 8 as new_score2
+    UNION ALL
+    SELECT 2, 10, 8
+    UNION ALL
+    SELECT 3, 8, 3
+    UNION ALL
+    SELECT 4, 10, 7
+) vals ON s.id = vals.id
+SET score1 = new_score1, score2 = new_score2;
+-- ---------
+UPDATE students SET score1 = 5, score2 = 8 WHERE id = 1;
+UPDATE students SET score1 = 10, score2 = 8 WHERE id = 2;
+UPDATE students SET score1 = 8, score2 = 3 WHERE id = 3;
+UPDATE students SET score1 = 10, score2 = 7 WHERE id = 4;
