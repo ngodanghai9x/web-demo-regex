@@ -3,18 +3,34 @@ extends ./layout
 block content
   h2 Register
   form#registerForm(action="/auth/register" method="POST") 
+    #error.my-2.text-error #{message}
     .mb-3
       label.form-label(for='Username') Username
       input#username.form-control(type='text'  name="username" onblur='onBlur(this.id)')
     .mb-3
       label.form-label(for='Password') Password
       input#password.form-control(type='text' name="password" onblur='onBlur(this.id)')
-    //- .mb-3
-    //-   label.form-label(for='Password2') Re-Password
-    //-   input#Password2.form-control(type='password' name="password2")
-    //- button.btn.btn-primary(type='submit') Create
-    button#createBtn.btn.btn-primary(type='button' onclick='onSubmit()') Create
+    .mb-3
+      label.form-label(for='Password2') Re-Password
+      input#password2.form-control(type='password' name="password2" onblur='onBlur(this.id)')
+    .d-flex.justify-content-end
+      button#clearBtn.btn.btn-light(type='button' onclick='onClear()') Clear
+      button#createBtn.btn.btn-primary(type='button' onclick='onSubmit()') Create
   script.
+
+   function compare2Password()  {
+      var password = document.getElementById('password');
+      var password2 = document.getElementById('password2');
+      console.log("compare2Password ", {
+        password,
+        password2
+      })
+      if (password && password2 && password.value === password2.value) {
+        return true;
+      }
+      return false;
+    }
+
     var errorMap = {};
     var fieldMap = {
       username: {
@@ -25,11 +41,31 @@ block content
         regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
         error: 'Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số',
       },
-      //- password2: {
-      //-   regex: /^[0-3]$/,
-      //-   error: 'Giới tính không đúng định dạng',
-      //- }
+      password2: {
+        regex: { test: () => compare2Password()},
+        error: 'Hai mật khẩu không trùng nhau',
+      }
     }
+
+   
+
+    function removeErrorById(id) {
+      var input = document.getElementById(id);
+
+      input.classList.remove('error');
+      errorMap[id] = null;
+      input.title = '';
+    }
+
+    function appendErrorById(id) {
+      var input = document.getElementById(id);
+
+      input.classList.add('error');
+      errorMap[id] = fieldMap[id].error;
+      input.title = fieldMap[id].error;
+      console.log(fieldMap[id].error);
+    }
+
     function onBlur(id) {
       var input = document.getElementById(id);
       if (!fieldMap[id] || !input) return alert(JSON.stringify({ id, value: input && input.value }));
@@ -37,16 +73,11 @@ block content
       console.log({ id, value: input.value })
 
       if (fieldMap[id].regex.test(input.value)) {
-        input.classList.remove('error');
-        errorMap[id] = null;
-        input.title = '';
+        removeErrorById(id);
         return;
       };
 
-      input.classList.add('error');
-      errorMap[id] = fieldMap[id].error;
-      input.title = fieldMap[id].error;
-      console.warning(fieldMap[id].error)
+      appendErrorById(id);
     }
 
     function onClear() {
@@ -63,7 +94,7 @@ block content
         return alert('Bạn chưa nhập đủ thông tin')
       }
       var errors = Object.values(errorMap)
-      console.log("🚀register errorMap", errorMap)
+      console.log("register errorMap", errorMap)
       if (errors && errors.filter(e => !!e).length) {
         return alert(errors.join('; '))
       }

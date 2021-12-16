@@ -30,5 +30,5 @@ pool.getConnection(function (err, connection) {
 });
 
 var a = ['a','b','c'].map((id) =>  mysql.escape(id)).join(',')
-console.log("🚀 ~ file: test_mysqljs.js ~ line 5 ~ a", a)
+console.log(" ~ file: test_mysqljs.js ~ line 5 ~ a", a)
 // ['a','b','c'].map(async (id) =>  await mysql.escape(id)).join(',')

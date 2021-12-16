@@ -22,14 +22,14 @@ let pool = {};
 try {
 	pool = mysql.createPool(config);
 } catch (error) {
-	console.log("🚀 ~ file: mysql.js error", error)
+	console.log(" ~ file: mysql.js error", error)
 	pool = {
 		getConnection: () => { },
 	};
 }
 const query = (sql, res, cb) => {
 	const handleError = error => {
-		console.log("🚀MYSQL ERROR", error)
+		console.log("MYSQL ERROR", error)
 		return res.redirect('/error');
 	}
 

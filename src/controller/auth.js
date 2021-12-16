@@ -27,12 +27,12 @@ export const postLogin = async (req, res, next) => {
     password = NEED_ESCAPE ? mysql.escape(password) : `'${password}'`;
     const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password}`
     // const sql1 = [`SELECT * FROM ${TABLE.ACCOUNT} WHERE username=? AND password=?`, [username, password]]
-    console.log("🚀 postLogin", {
+    console.log(" postLogin", {
       sql,
       body: req.body
     })
     query(sql, res, (results) => {
-      console.log("🚀 postLogin results", results?.length)
+      console.log(" postLogin results", results?.length)
       if (results?.length === 1) {
         res.cookie('userId', 1506, cookieOptions);
         return res.redirect('/users?login=true');
@@ -56,6 +56,7 @@ export const renderRegister = (req, res, next) => {
 export const postRegister = (req, res, next) => {
   try {
     let { username, password } = req.body;
+    password = password;
     debugger
     const account = {
       username: mysql.escape(username),
@@ -65,7 +66,7 @@ export const postRegister = (req, res, next) => {
     const values = Object.values(account).join(',');
     const insertSql = `INSERT INTO ${TABLE.ACCOUNT} (${keys}) VALUES (${values})`
     query(insertSql, res, (results) => {
-      console.log("🚀 postRegister", {
+      console.log(" postRegister", {
         insertSql,
         results
       })

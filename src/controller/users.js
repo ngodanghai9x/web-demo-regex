@@ -19,7 +19,7 @@ export const renderForm = async (req, res) => {
       });
     })
   } catch (error) {
-    console.log("🚀MY ERROR", error)
+    console.log("MY ERROR", error)
     res.render('error.pug')
   } finally {
     // conn.end()
@@ -50,13 +50,13 @@ export const createUser = async (req, res) => {
     if (!!+sex) user.sex = needEscapeValue(sex);
     if (birthday) user.birthday = `'${moment(birthday).format('YYYY-MM-DD HH:mm:ss').toString()}'`;
     
-    console.log("🚀 ~ file: users.js ~ line 49 ~ createUser ~ user", user)
+    console.log(" ~ file: users.js ~ line 49 ~ createUser ~ user", user)
     const keys = Object.keys(user).join(',');
     const values = Object.values(user).join(',');
     const insertSql = `INSERT INTO ${TABLE.USER} (${keys}) VALUES (${values});`
 
     query(insertSql, res, results => {
-      console.log("🚀inserted", {
+      console.log("inserted", {
         insertSql,
         results
       })
@@ -64,7 +64,7 @@ export const createUser = async (req, res) => {
     });
 
   } catch (error) {
-    console.log("🚀MY ERROR", error)
+    console.log("MY ERROR", error)
   }
 }
 
@@ -73,14 +73,14 @@ export const createUser = async (req, res) => {
 export const renderUsers = async (req, res) => {
   try {
     // const sql = `SELECT * FROM ${TABLE.ACCOUNT};`
-    // console.log("🚀 renderUsers ~ data", data)
+    // console.log(" renderUsers ~ data", data)
     // res.render('users.pug', {
     //   name: 'Hải',
     //   userList: [],
     // });
     res.sendFile(__dirname + '/users.html')
   } catch (error) {
-    console.log("🚀MY ERROR", error)
+    console.log("MY ERROR", error)
     res.render('error.pug')
   } finally {
   }
