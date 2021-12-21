@@ -1,6 +1,7 @@
 import mysql from 'mysql';
 import query from '../config/mysql';
-import { NEED_ESCAPE, SQLI_REGEX, TABLE } from "../ultis/constants";
+import { TABLE } from "../ultis/constants";
+import { singleInsertEscaped } from '../ultis/ultis';
 
 const cookieOptions = {
   signed: true,
@@ -15,16 +16,9 @@ export const renderLogin = (req, res, next) => {
 export const postLogin = async (req, res, next) => {
   try {
     let { username, password } = req.body;
-    var sqlInjectString = `' or 1=1 --  `;
-    // if (SQLI_REGEX.test(username) || SQLI_REGEX.test(password)) {
-    //   console.log("postLogin ~ SQLI_REGEX", req.body)
-    //   res.render('login.pug', {
-    //     message: 'Tài khoản hoặc mật khẩu có chứa kí tự lạ'
-    //   });
-    // }
-    // debugger
-    username = NEED_ESCAPE ? mysql.escape(username) : `'${username}'`;
-    password = NEED_ESCAPE ? mysql.escape(password) : `'${password}'`;
+    username = mysql.escape(username);
+    password = mysql.escape(password);
+
     const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password}`
     // const sql1 = [`SELECT * FROM ${TABLE.ACCOUNT} WHERE username=? AND password=?`, [username, password]]
     console.log(" postLogin", {
@@ -55,25 +49,39 @@ export const renderRegister = (req, res, next) => {
 
 export const postRegister = (req, res, next) => {
   try {
-    let { username, password } = req.body;
-    password = password;
-    debugger
+    const { username, password } = req.body;
+
+    const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password}`
+    // const sql = [`SELECT * FROM ${TABLE.ACCOUNT} WHERE username=? `, [username]]
+    query(sql, res, (results) => {
+      if (results?.length) {
+        console.log("Username đã tồn tại", results)
+        res.render('register.pug', {
+          message: 'Tài khoản đã tồn tại'
+        });
+
+        // return res.redirect('/auth/login');
+      }
+    });
+
+    const hashedPassword = password;
     const account = {
       username: mysql.escape(username),
-      password: mysql.escape(password),
+      password: mysql.escape(hashedPassword),
     }
     const keys = Object.keys(account).join(',');
     const values = Object.values(account).join(',');
-    const insertSql = `INSERT INTO ${TABLE.ACCOUNT} (${keys}) VALUES (${values})`
-    query(insertSql, res, (results) => {
-      console.log(" postRegister", {
-        insertSql,
+    const sqlParams = `INSERT INTO ${TABLE.ACCOUNT} (${keys}) VALUES (${values})`
+    // const sqlParams = singleInsertEscaped(TABLE.ACCOUNT, account)
+    query(sqlParams, res, (results) => {
+      console.log("postRegister", {
+        sqlParams,
         results
       })
       if (results?.insertId) {
-        return res.redirect('/auth/login');
+        res.redirect('/auth/login');
       } else {
-        return res.redirect('/auth/register');
+        res.redirect('/auth/register');
       }
     });
   } catch (error) {

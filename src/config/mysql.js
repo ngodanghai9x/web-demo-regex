@@ -50,6 +50,37 @@ const query = (sql, res, cb) => {
 }
 export default query;
 
+// const CURRENT_TIMESTAMP = mysql.raw('CURRENT_TIMESTAMP()');
+// var sql = mysql.format('UPDATE posts SET modified = ? WHERE id = ?', [CURRENT_TIMESTAMP, 42]);
+
+export const queryParams = (arrayQuery, res, cb) => {
+	const handleError = error => {
+		console.log("MYSQL ERROR", error)
+		return res.redirect('/error');
+	}
+
+	pool.getConnection(function (err, connection) {
+		if (err) handleError(err); // not connected!
+
+		// Use the connection
+		if (!connection) return;
+		if (!arrayQuery?.length < 2) return console.log('queryParams', arrayQuery);
+		
+		const sql = arrayQuery[0];
+		const params = arrayQuery[1]
+		const query = mysql.format(sql, params);
+		// connection.query(sql, params, function (error, results, fields) {
+		connection.query(query, function (error, results, fields) {
+			cb && cb(results, fields);
+			connection.release();
+
+			// Handle error after the release.
+			if (error) handleError(error);
+			// Don't use the connection here, it has been returned to the pool.
+		});
+	});
+}
+
 /*
 create table user (
 	id int not null primary key auto_increment,
