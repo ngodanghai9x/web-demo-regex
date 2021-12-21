@@ -51,7 +51,12 @@ export const postRegister = (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password}`
+    const hashedPassword = password;
+    const account = {
+      username: mysql.escape(username),
+      password: mysql.escape(hashedPassword),
+    }
+    const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${account.username}`
     // const sql = [`SELECT * FROM ${TABLE.ACCOUNT} WHERE username=? `, [username]]
     query(sql, res, (results) => {
       if (results?.length) {
@@ -59,31 +64,27 @@ export const postRegister = (req, res, next) => {
         res.render('register.pug', {
           message: 'Tài khoản đã tồn tại'
         });
-
         // return res.redirect('/auth/login');
+      } else {
+        const keys = Object.keys(account).join(',');
+        const values = Object.values(account).join(',');
+        const sqlParams = `INSERT INTO ${TABLE.ACCOUNT} (${keys}) VALUES (${values})`
+        // const sqlParams = singleInsertEscaped(TABLE.ACCOUNT, account)
+        query(sqlParams, res, (results) => {
+          console.log("postRegister", {
+            sqlParams,
+            results
+          })
+          if (results?.insertId) {
+            res.redirect('/auth/login');
+          } else {
+            res.redirect('/auth/register');
+          }
+        });
       }
     });
 
-    const hashedPassword = password;
-    const account = {
-      username: mysql.escape(username),
-      password: mysql.escape(hashedPassword),
-    }
-    const keys = Object.keys(account).join(',');
-    const values = Object.values(account).join(',');
-    const sqlParams = `INSERT INTO ${TABLE.ACCOUNT} (${keys}) VALUES (${values})`
-    // const sqlParams = singleInsertEscaped(TABLE.ACCOUNT, account)
-    query(sqlParams, res, (results) => {
-      console.log("postRegister", {
-        sqlParams,
-        results
-      })
-      if (results?.insertId) {
-        res.redirect('/auth/login');
-      } else {
-        res.redirect('/auth/register');
-      }
-    });
+
   } catch (error) {
 
   }
