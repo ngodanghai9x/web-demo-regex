@@ -1,3 +1,4 @@
+import sha256 from 'crypto-js/sha256';
 import mysql from 'mysql';
 import query from '../config/mysql';
 import { TABLE } from "../ultis/constants";
@@ -16,8 +17,10 @@ export const renderLogin = (req, res, next) => {
 export const postLogin = async (req, res, next) => {
   try {
     let { username, password } = req.body;
+    const hashedPassword = sha256(password);
+
     username = mysql.escape(username);
-    password = mysql.escape(password);
+    password = mysql.escape(hashedPassword);
 
     const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${password}`
     // const sql1 = [`SELECT * FROM ${TABLE.ACCOUNT} WHERE username=? AND password=?`, [username, password]]
@@ -28,14 +31,15 @@ export const postLogin = async (req, res, next) => {
     query(sql, res, (results) => {
       console.log(" postLogin results", results?.length)
       if (results?.length === 1) {
-        res.cookie('userId', 1506, cookieOptions);
+        // res.cookie('userId', 1506, cookieOptions);
         return res.redirect('/users?login=true');
       } else {
-        res.render('login.pug', {
-          message: 'Tài khoản hoặc mật khẩu không chính xác'
-        });
+        const error = `Tài khoản hoặc mật khẩu không chính xác`;
+        // res.render('login.pug', {
+        //   message: error
+        // });
 
-        // return res.redirect('/auth/login');
+        return res.redirect(`/auth/login?error=${error}`);
       }
     });
   } catch (error) {
@@ -51,7 +55,7 @@ export const postRegister = (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    const hashedPassword = password;
+    const hashedPassword = sha256(password);
     const account = {
       username: mysql.escape(username),
       password: mysql.escape(hashedPassword),

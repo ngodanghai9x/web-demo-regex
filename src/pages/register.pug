@@ -16,9 +16,19 @@ block content
     .d-flex.justify-content-end
       button#clearBtn.btn.btn-light(type='button' onclick='onClear()') Clear
       button#createBtn.btn.btn-primary(type='button' onclick='onSubmit()') Create
+      
+  script(src='https://unpkg.com/sweetalert/dist/sweetalert.min.js')
   script.
+    var error = new URL(window.location.href).searchParams.get('error');
+    var ignoreValidate = true;
 
-   function compare2Password()  {
+    function logError (error) {
+      swal("Error",error, "error");
+    }
+    if (!!error) {
+      logError(error);
+    } 
+    function compare2Password()  {
       var password = document.getElementById('password');
       var password2 = document.getElementById('password2');
       console.log("compare2Password ", {
@@ -34,15 +44,18 @@ block content
     var errorMap = {};
     var fieldMap = {
       username: {
-        regex: /^[a-z_\d]{6,255}$/i,
+        //- regex: /^[a-z_\d]{6,255}$/i,
+        regex: ignoreValidate ? /./ : /^[a-z_\d]{6,255}$/i,
         error: 'Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _, độ dài tối thiểu là 6 kí tự',
       },
       password: {
-        regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
+        //- regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
+        regex: ignoreValidate ? /./ : /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i ,
         error: 'Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số',
       },
       password2: {
-        regex: { test: () => compare2Password()},
+        //- regex: { test: () => compare2Password()},
+        regex: ignoreValidate ? /./ : { test: () => compare2Password()} ,
         error: 'Hai mật khẩu không trùng nhau',
       }
     }
@@ -90,13 +103,18 @@ block content
     }
 
     function onSubmit() {
+      if (ignoreValidate) {
+        document.getElementById('registerForm').submit();
+        return;
+      }
+
       if (Object.keys(fieldMap).some(id => !document.getElementById(id).value)) {
-        return alert('Bạn chưa nhập đủ thông tin')
+        return logError('Bạn chưa nhập đủ thông tin', "abc", "error")
       }
       var errors = Object.values(errorMap)
       console.log("register errorMap", errorMap)
       if (errors && errors.filter(e => !!e).length) {
-        return alert(errors.join('; '))
+        return logError(errors.join('; '), "", "error")
       }
       document.getElementById('registerForm').submit();
     }

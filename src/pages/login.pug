@@ -11,8 +11,16 @@ block content
       label.form-label(for='Password') Password
       input#Password.form-control(type='password' name="password")
     button.btn.btn-primary(type='submit') Login
-    
+
+  script(src='https://unpkg.com/sweetalert/dist/sweetalert.min.js')
   script.
+    var error = new URL(window.location.href).searchParams.get('error');
+    function logError (error) {
+      swal("Error",error, "error");
+    }
+    if (!!error) {
+      logError(error);
+    } 
     function onClick() {
       document.getElementById('error').innerHTML = ''
     }
