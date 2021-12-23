@@ -17,16 +17,12 @@ block content
       button#clearBtn.btn.btn-light(type='button' onclick='onClear()') Clear
       button#createBtn.btn.btn-primary(type='button' onclick='onSubmit()') Create
       
-  script(src='https://unpkg.com/sweetalert/dist/sweetalert.min.js')
   script.
     var error = new URL(window.location.href).searchParams.get('error');
     var ignoreValidate = false;
 
-    function logError (error) {
-      swal("Error",error, "error");
-    }
     if (!!error) {
-      logError(error);
+      alert(error);
     } 
     function compare2Password()  {
       var password = document.getElementById('password');
@@ -109,12 +105,12 @@ block content
       }
 
       if (Object.keys(fieldMap).some(id => !document.getElementById(id).value)) {
-        return logError('Bạn chưa nhập đủ thông tin', "abc", "error")
+        return alert('Bạn chưa nhập đủ thông tin', "abc", "error")
       }
       var errors = Object.values(errorMap)
       console.log("register errorMap", errorMap)
       if (errors && errors.filter(e => !!e).length) {
-        return logError(errors.join('; '), "", "error")
+        return alert(errors.join('; '), "", "error")
       }
       document.getElementById('registerForm').submit();
     }

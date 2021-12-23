@@ -1,8 +1,7 @@
-import sha256 from 'crypto-js/sha256';
+import sha1 from 'crypto-js/sha1';
 import mysql from 'mysql';
 import query from '../config/mysql';
 import { TABLE } from "../ultis/constants";
-import { singleInsertEscaped } from '../ultis/ultis';
 
 const cookieOptions = {
   signed: true,
@@ -18,7 +17,7 @@ export const postLogin = async (req, res, next) => {
   try {
     let { username, password } = req.body;
     console.log("🚀 ~ file: auth.js ~ line 20 ~ postLogin ~ username, password", username, password)
-    const hashedPassword = sha256(password).toString();
+    const hashedPassword = sha1(password).toString();
 
     const _username = mysql.escape(username);
     password = mysql.escape(hashedPassword);
@@ -58,7 +57,7 @@ export const postRegister = (req, res, next) => {
   try {
     const { username, password } = req.body;
 
-    const hashedPassword = sha256(password).toString();
+    const hashedPassword = sha1(password).toString();
     const account = {
       username: mysql.escape(username),
       password: mysql.escape(hashedPassword),
@@ -105,8 +104,8 @@ export const postChangePassword = async (req, res, next) => {
   try {
     let { username } = req.signedCookies;
     let { oldPassword, password } = req.body;
-    const hashedPassword = sha256(password).toString();
-    const hashedOldPassword = sha256(oldPassword).toString();
+    const hashedPassword = sha1(password).toString();
+    const hashedOldPassword = sha1(oldPassword).toString();
     console.log("oldPassword, password", { oldPassword, password, username })
 
     username = mysql.escape(username);

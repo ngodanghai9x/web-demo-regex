@@ -48,10 +48,9 @@ block content
         else 
           li Array userList is empty
   //- script(src='pages/js/createUser.js')
-  script(src='https://unpkg.com/sweetalert/dist/sweetalert.min.js')
 
   script.
-    JSON.parse(new URL(window.location.href).searchParams.get('login')) && swal("Đăng nhập thành công !", "", "success")
+    JSON.parse(new URL(window.location.href).searchParams.get('login')) && alert("Đăng nhập thành công !")
     var errorMap = {};
     var fieldMap = {
       name: {
