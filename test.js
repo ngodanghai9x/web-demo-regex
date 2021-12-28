@@ -50,3 +50,49 @@ console.log({
 // } catch (error) {
 //   console.log(" ~ file: test.js ~ line 49 ~ error", error)
 // }
+
+
+// const nodemailer = require('nodemailer');
+// const EMAIL = {
+//   username: 'ndh.developer@gmail.com',
+//   password: '!Hai123456'
+// }
+// const transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     user: EMAIL.username,
+//     pass: EMAIL.password,
+//   }
+// });
+
+// const mailOptions = {
+//   from: EMAIL.username,
+//   to: 'myfriend@yopmail.com',
+//   subject: 'Sending Email using Node.js',
+//   html: `
+//   `
+// };
+
+// transporter.sendMail(mailOptions, function (error, info) {
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log('Email sent: ' + info.response);
+//   }
+// });
+// transporter.sendMail(mailOptions).then(info => console.log('email: ', info.response)).catch(e => console.log) 
+
+
+// import { createClient } from 'redis';
+var redis = require('redis');
+
+(async () => {
+  const client = redis.createClient();
+
+  client.on('error', (err) => console.log('Redis Client Error', err));
+
+  await client.connect();
+
+  await client.set('key', 'value');
+  const value = await client.get('key');
+})();

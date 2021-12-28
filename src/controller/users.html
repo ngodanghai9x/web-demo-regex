@@ -79,15 +79,26 @@
       <div class="users">
         <h2>List</h2>
         <div id="js"></div>
-        <br >
+        <br />
         <div class="d-flex">
-          <input class="form-control" type="text" id="input" style="width: 50%;" />
-          <button id="btnTest" type="button" class="btn btn-primary mx-3" onclick="onClick1()">Add to list</button>
+          <input
+            class="form-control"
+            type="text"
+            id="input"
+            style="width: 50%"
+          />
+          <button
+            id="btnTest"
+            type="button"
+            class="btn btn-primary mx-3"
+            onclick="onClick1()"
+          >
+            Add to list
+          </button>
         </div>
         <!-- <img src="ab" onerror="alert(12)" /> -->
       </div>
     </div>
-    
   </body>
   <script>
     var btnTest = document.getElementById("btnTest");
@@ -100,12 +111,12 @@
     // js.innerHTML = new URL(window.location.href).searchParams.get('a');
     function onClick1() {
       // <img src="ab" onerror="alert(12)" />
-      var node = document.createElement("LI");                
-      node.innerHTML = input.value.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      var node = document.createElement("LI");
+      node.innerHTML = input.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
       // node.innerHTML = input.value;
-      node.textContent = input.value;      
-      var textnode = document.createTextNode(input.value);                                    
-      js.appendChild(node); 
+      node.textContent = input.value;
+      var textnode = document.createTextNode(input.value);
+      js.appendChild(node);
       // js.innerHTML = input.value;
       console.log(" ~ file: users.html ~ line 87 ~ innerHTML");
     }
