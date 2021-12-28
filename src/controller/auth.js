@@ -56,12 +56,13 @@ export const renderRegister = (req, res, next) => {
 
 export const postRegister = (req, res, next) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, email } = req.body;
 
     const hashedPassword = sha256(password).toString();
     const account = {
       username: mysql.escape(username),
       password: mysql.escape(hashedPassword),
+      email: mysql.escape(email)
     }
     const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${account.username}`
     // const sql = [`SELECT * FROM ${TABLE.ACCOUNT} WHERE username=? `, [username]]
@@ -102,6 +103,55 @@ export const renderChangePassword = (req, res, next) => {
 }
 
 export const postChangePassword = async (req, res, next) => {
+  try {
+    let { username } = req.signedCookies;
+    let { oldPassword, password } = req.body;
+    const hashedPassword = sha256(password).toString();
+    const hashedOldPassword = sha256(oldPassword).toString();
+    console.log("oldPassword, password", { oldPassword, password, username })
+
+    username = mysql.escape(username);
+    oldPassword = mysql.escape(hashedOldPassword);
+    password = mysql.escape(hashedPassword);
+
+    console.log("oldPassword, password 222", { oldPassword, password, username })
+
+    const sql = `SELECT * FROM ${TABLE.ACCOUNT} WHERE username=${username} AND password=${oldPassword}`
+    // const sql1 = [`SELECT * FROM ${TABLE.ACCOUNT} WHERE username=? AND password=?`, [username, password]]
+
+    query(sql, res, (results) => {
+      console.log("results", { sql, length: results?.length })
+      if (results?.length === 1) {
+        const sqlParams = `UPDATE ${TABLE.ACCOUNT} SET password=${password} WHERE username=${username}`
+        // const sqlParams = singleInsertEscaped(TABLE.ACCOUNT, account)
+        query(sqlParams, res, (results) => {
+          console.log("update query", {
+            sqlParams,
+            results
+          })
+          if (results?.changedRows) {
+            return res.redirect('/auth/change-password?changed=true');
+          } else {
+            return res.redirect('/auth/change-password?changed=false');
+          }
+        });
+        // dont call res here
+        // return res.redirect('/auth/change-password?changed=true');
+      } else {
+        return res.redirect('/auth/change-password?changed=false');
+
+      }
+    });
+  } catch (error) {
+
+  }
+}
+
+export const renderForgetPassword = (req, res, next) => {
+  res.render('forgetPassword.pug');
+}
+
+export const postForgetPassword = async (req, res, next) => {
   try {
     let { username } = req.signedCookies;
     let { oldPassword, password } = req.body;
