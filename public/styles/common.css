@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   /* color: coral ; */
+  font-family: cursive;
 }
 
 label {
@@ -29,4 +30,12 @@ label {
 }
 .text-error {
   color: red;
+}
+.my-contain {
+  padding: 450px !important;
+  padding-top: 10px !important;
+}
+
+nav.navbar {
+  padding-left: 630px !important;
 }
