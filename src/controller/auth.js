@@ -16,7 +16,7 @@ export const renderLogin = (req, res, next) => {
 export const postLogin = async (req, res, next) => {
   try {
     let { username, password } = req.body;
-    console.log("🚀 ~ file: auth.js ~ line 20 ~ postLogin ~ username, password", username, password)
+    console.log("~ file: auth.js ~ line 20 ~ postLogin ~ username, password", username, password)
     const hashedPassword = sha1(password).toString();
 
     const _username = mysql.escape(username);
@@ -34,7 +34,7 @@ export const postLogin = async (req, res, next) => {
         res.cookie('username', username, cookieOptions);
         res.cookie('login', 'true', cookieOptions);
         // req.cookies.userId
-        return res.redirect('/users?login=true');
+        return res.redirect('/auth/change-password');
       } else {
         const error = `Tài khoản hoặc mật khẩu không chính xác`;
         // res.render('login.pug', {

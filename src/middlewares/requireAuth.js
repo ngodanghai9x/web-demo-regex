@@ -5,7 +5,7 @@ export const requireAuth = (req, res, next) => {
     return;
   }
   const { username, login } = req.signedCookies;
-  // console.log("🚀 ~ file: requireAuth.js ~ line 8 ~ requireAuth ~ username, login", username, login)
+  // console.log("~ file: requireAuth.js ~ line 8 ~ requireAuth ~ username, login", username, login)
   if (!!username && login === 'true') {
     next();
   } else {
