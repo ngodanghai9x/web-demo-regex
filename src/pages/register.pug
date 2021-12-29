@@ -1,21 +1,21 @@
 extends ./layout
 
 block content
-  h2 Register
+  h2 Đăng kí
   form#registerForm(action="/auth/register" method="POST") 
     #error.my-2.text-error #{message}
     .mb-3
-      label.form-label(for='Username') Username
+      label.form-label(for='Username') Tên đăng kí
       input#username.form-control(type='text'  name="username" onblur='onBlur(this.id)')
     .mb-3
-      label.form-label(for='Password') Password
+      label.form-label(for='Password') Mât khẩu
       input#password.form-control(type='password' name="password" onblur='onBlur(this.id)')
     .mb-3
-      label.form-label(for='Password2') Re-Password
+      label.form-label(for='Password2') Nhập lại mật khẩu
       input#password2.form-control(type='password' name="password2" onblur='onBlur(this.id)')
     .d-flex.justify-content-end
-      button#clearBtn.btn.btn-light(type='button' onclick='onClear()') Clear
-      button#createBtn.btn.btn-success(type='button' onclick='onSubmit()') Create
+      button#clearBtn.btn.btn-light(type='button' onclick='onClear()') Xóa
+      button#createBtn.btn.btn-success(type='button' onclick='onSubmit()') Đăng kí
       
   script.
     var error = new URL(window.location.href).searchParams.get('error');
