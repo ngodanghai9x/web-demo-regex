@@ -40,18 +40,15 @@ block content
     var errorMap = {};
     var fieldMap = {
       username: {
-        //- regex: /^[a-z_\d]{6,255}$/i,
-        regex: ignoreValidate ? /./ : /^[a-z_\d]{6,255}$/i,
+        regex: /^[a-z_\d]{6,255}$/i,
         error: 'Tên tài khoản chỉ bao gồm chữ cái, chữ số, dấu _, độ dài tối thiểu là 6 kí tự',
       },
       password: {
-        //- regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
-        regex: ignoreValidate ? /./ : /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i ,
+        regex: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#?!@$%^&*+='"<>\]\[\|-]).{8,}$/i,
         error: 'Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái viết hoa, 1 chữ cái viết thường và 1 số',
       },
       password2: {
-        //- regex: { test: () => compare2Password()},
-        regex: ignoreValidate ? /./ : { test: () => compare2Password()} ,
+        regex: { test: () => compare2Password()},
         error: 'Hai mật khẩu không trùng nhau',
       }
     }
