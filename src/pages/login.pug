@@ -1,18 +1,22 @@
 extends ./layout
 
 block content
-  h2 Login
+  h2 Đăng nhập
   form(action="/auth/login" method="POST" onclick="onClick()") 
     #error.my-2.text-error #{message}
     .mb-3
-      label.form-label(for='Username') Username
+      label.form-label(for='Username') Tên đăng nhập
       input#Username.form-control(type='text'  name="username")
     .mb-3
-      label.form-label(for='Password') Password
+      label.form-label(for='Password') Mật khẩu
       input#Password.form-control(type='password' name="password")
-    button.btn.btn-primary(type='submit') Login
-    
+    button.btn.btn-success(type='submit') Đăng nhập
+
   script.
+    var error = new URL(window.location.href).searchParams.get('error');
+    if (!!error) {
+      alert(error);
+    } 
     function onClick() {
       document.getElementById('error').innerHTML = ''
     }

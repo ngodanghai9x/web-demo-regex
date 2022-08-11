@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 const APP_HOST = 'http://localhost';
-const APP_PORT = 1107;
+const APP_PORT = 1234;
 
 app.use(express.static('public')); // for folder public
 

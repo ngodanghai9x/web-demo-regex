@@ -38,7 +38,7 @@ block content
         //-   input#photos.form-control(type='file' name="photos" multiple)
         .d-flex.justify-content-end
           button#clearBtn.btn.btn-light(type='button' onclick='onClear()') Clear
-          button#createBtn.btn.btn-primary(type='button' onclick='onSubmit()') Create
+          button#createBtn.btn.btn-success(type='button' onclick='onSubmit()') Create
     .col
       .form-list 
         h2 List user
@@ -48,11 +48,9 @@ block content
         else 
           li Array userList is empty
   //- script(src='pages/js/createUser.js')
-  script(src='https://unpkg.com/sweetalert/dist/sweetalert.min.js')
-    //-   swal("Hello world");
 
   script.
-    JSON.parse(new URL(window.location.href).searchParams.get('login')) && swal("Đăng nhập thành công !", "", "success")
+    JSON.parse(new URL(window.location.href).searchParams.get('login')) && alert("Đăng nhập thành công !")
     var errorMap = {};
     var fieldMap = {
       name: {
@@ -117,7 +115,7 @@ block content
         return alert('Trường tên không được để trống')
       }
       var errors = Object.values(errorMap)
-      console.log("🚀createUser errorMap", errorMap)
+      console.log("createUser errorMap", errorMap)
       if (errors && errors.filter(e => !!e).length) {
         return alert(errors.join('; '))
       }

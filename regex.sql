@@ -31,11 +31,7 @@ alter table user add column modified_at timestamp default current_timestamp;
 ALTER TABLE `demo_regex`.`user` 
 CHANGE COLUMN `name` `name` VARCHAR(255) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_vietnamese_ci' NOT NULL ;
 
-insert into account (username, password) values ('haind3','123456');
 insert into account (username, password) values ('admin','123456');
-INSERT INTO user (name,phone,website,email,description,sex) VALUES ('ngô đăng hải','0975336798','','dmtuan1@yopmail.com','','0');
-INSERT INTO user (name,phone,website,email,description,birthday)
-	VALUES ('ngô đăng hải','0975336798','','dmtuan1@yopmail.com','','2021-09-22 00:00:00');
     
 INSERT INTO user (name,phone,website,email,description) VALUES ("<img src='ab' onerror='alert(12)' />",'123','','','');
 INSERT	 INTO user (name,phone,website,email,description) VALUES ("' or 1=1 --  ",'123','','','');

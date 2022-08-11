@@ -7,7 +7,7 @@ import { createUser, renderForm, renderUsers } from 'controller/users.js';
 const upload = multer({ dest: './public/upload_files' }) // for parsing multipart/form-data
 
 const router = express.Router();
-
+// /users
 router.get('/', requireAuth, renderForm)
 router.get('/create', requireAuth, renderForm)
 router.get('/list', renderUsers)

@@ -48,5 +48,5 @@ console.log({
 //   var a = 10;
 //   throw  newError(401, 'Lỗi');
 // } catch (error) {
-//   console.log("🚀 ~ file: test.js ~ line 49 ~ error", error)
+//   console.log(" ~ file: test.js ~ line 49 ~ error", error)
 // }
