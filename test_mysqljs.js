@@ -13,22 +13,57 @@ var config = {
 	password: DB_PASSWORD,
 	database: DB_DATABASE
 };
-var pool = mysql.createPool(config);
 
-pool.getConnection(function (err, connection) {
-  if (err) handleError(err);
+// var connection = mysql.createConnection(config);
 
-  if (!connection) return;
-  connection.query(sql, function (error, results, fields) {
+// connection.connect(function(err) {
+//   if (err) {
+//     console.error('error connecting: ' + err.stack);
+//     return;
+//   }
+
+//   console.log('connected as id ' + connection.threadId);
+// });
+
+// connection.query('SELECT 1', function (error, results, fields) {
+//   if (error) throw error;
+//   console.log('connected as id ' + connection.threadId);
+// });
+
+// connection.query('SELECT 1', function (error, results, fields) {
+//   if (error) throw error;
+//   console.log('connected as id ' + connection.threadId);
+// });
+
+// connection.end(function(err) {
+//   // The connection is terminated now
+// });
+
+var pool  = mysql.createPool(config);
+
+pool.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+  if (error) throw error;
+  console.log("🚀 ~ file: test_mysqljs.js ~ line 48 ~ pool", pool)
+  console.log('The solution is: ', results[0].solution);
+});
+
+// pool.query('SELECT 1 + 1 AS solution').then(console.log).catch(console.log)
+// var pool = mysql.createPool(config);
+
+// pool.getConnection(function (err, connection) {
+//   if (err) handleError(err);
+
+//   if (!connection) return;
+//   connection.query(sql, function (error, results, fields) {
 
 
     
-    connection.release();
+//     connection.release();
 
-    if (error) handleError(error);
-  });
-});
+//     if (error) handleError(error);
+//   });
+// });
 
-var a = ['a','b','c'].map((id) =>  mysql.escape(id)).join(',')
-console.log(" ~ file: test_mysqljs.js ~ line 5 ~ a", a)
+// var a = ['a','b','c'].map((id) =>  mysql.escape(id)).join(',')
+// console.log(" ~ file: test_mysqljs.js ~ line 5 ~ a", a)
 // ['a','b','c'].map(async (id) =>  await mysql.escape(id)).join(',')
