@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 const APP_HOST = 'http://localhost';
-const APP_PORT = 1107;
+const APP_PORT = 1234;
 
 app.use(express.static('public')); // for folder public
 
@@ -21,8 +21,11 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 //   next();
 // })
 
-app.set('view engine', 'pug');
-app.set('views', `${__dirname}/../pages`);
+// app.set('view engine', 'pug');
+// app.set('views', `${__dirname}/../pages`);
+
+app.set('view engine', 'ejs');
+app.set('views', `${__dirname}/../views`);
 
 app.listen(APP_PORT, () => {
   console.log(`Demo regex app listening at ${APP_HOST}:${APP_PORT}`)
